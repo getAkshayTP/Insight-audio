@@ -1,86 +1,211 @@
-# InSight Audio: Podcast AI System 🎙️🧠
+# 🎙️ Podcast Intelligence System
 
-An Explainable AI platform that transforms passive podcast listening into active knowledge. This CLI-based application makes unstructured audio searchable, summarizable, and interactive using a local Retrieval-Augmented Generation (RAG) pipeline.
-
-## 🚀 Key Features
-
-* **Local Transcription:** Converts `.wav`, `.mp3`, and `.m4a` files into highly accurate timestamped text using OpenAI's Whisper model.
-* **Explainable RAG (Smart Search):** Ask questions about the podcast and get exact answers powered by FAISS vector search, with confidence scores to prevent hallucinations.
-* **Automated Summarization:** Instantly generates concise, 5-8 sentence summaries of entire episodes using local LLMs.
-* **Active Learning (Quiz Mode):** Automatically reads the transcript and generates interactive multiple-choice questions to test your knowledge retention.
-* **Fully Local & Private:** Utilizes Ollama and SentenceTransformers for all generation and embedding tasks, ensuring no sensitive data leaves your machine.
-
-## 🛠️ Tech Stack
-
-* **Language:** Python
-* **LLM Engine:** Ollama (`qwen2.5:7b`)
-* **Embeddings:** SentenceTransformers (`all-MiniLM-L6-v2`)
-* **Vector Database:** FAISS (Inner Product / Cosine Similarity)
-* **Transcription:** Whisper (`small` model)
-
-## 📁 Repository Structure
-
-```text
-├── data/
-│   ├── transcripts/      # Raw transcribed JSON files
-│   ├── embeddings/       # Saved embeddings and chunk metadata
-│   └── faiss_index/      # Compiled FAISS vector indexes
-├── backend/
-│   ├── transcribe.py     # Whisper integration for audio processing
-│   ├── chunking.py       # Timestamp-aware transcript segmenting
-│   ├── embedding.py      # Vector generation using MiniLM
-│   ├── faiss_index.py    # Vector database building and storage
-│   ├── retrieval.py      # Semantic search and context retrieval
-│   ├── generator.py      # LLM prompting for strict RAG answers
-│   ├── summarizer.py     # Full transcript summarization logic
-│   ├── quiz.py           # MCQ generation based on transcript context
-│   └── models.py         # Centralized model loading
-└── main.py               # Interactive CLI entry point
-
-## ⚙️ Installation & Setup
-
-Follow these steps to set up and run the Podcast AI System on your local machine.
-
-### Prerequisites
-* **Python 3.10+**
-* **FFmpeg:** Required by OpenAI's Whisper model for audio processing[cite: 11]. 
-  * *Windows:* Install via Chocolatey (`choco install ffmpeg`) or download directly and add to your System PATH.
-  * *Mac:* `brew install ffmpeg`
-
-## ⚙️ Installation & Setup
-
-Follow these steps to set up and run the Podcast AI System on your local machine.
-
-### 📋 Prerequisites
-
-* **Python 3.10+**
-* **FFmpeg:** Required by OpenAI's Whisper model for audio processing[cite: 11].
-  * *Windows:* Install via Chocolatey (`choco install ffmpeg`) or download directly and add to your System PATH.
-  * *Mac:* `brew install ffmpeg`
+An AI-powered Podcast Intelligence System that transforms podcast audio into an interactive knowledge base using Retrieval-Augmented Generation (RAG). The system automatically transcribes audio, generates semantic embeddings, performs intelligent document retrieval, answers questions using source-grounded responses, generates concise summaries, and creates quizzes from podcast content.
 
 ---
 
-### 🏃‍♂️ Step-by-Step Guide
+## ✨ Features
 
-#### 1. Clone the Repository
+- 🎧 Automatic podcast transcription using OpenAI Whisper
+- ✂️ Intelligent transcript chunking with timestamp preservation
+- 🧠 Semantic embedding generation using Sentence Transformers
+- ⚡ Fast vector similarity search with FAISS
+- 💬 Retrieval-Augmented Generation (RAG) based Question Answering
+- 📑 AI-generated podcast summaries
+- 📝 Automatic multiple-choice quiz generation
+- 📍 Timestamp-based source retrieval
+- 📊 Similarity score and confidence estimation
+- 🚫 Hallucination reduction through grounded context retrieval
+
+---
+
+## 🏗️ Architecture
+
+```text
+                Audio File
+                     │
+                     ▼
+            OpenAI Whisper
+                     │
+                     ▼
+       Timestamped Transcript
+                     │
+                     ▼
+              Text Chunking
+                     │
+                     ▼
+     Sentence Transformer Embeddings
+                     │
+                     ▼
+              FAISS Vector Store
+                     │
+         User Question / Query
+                     │
+                     ▼
+          Semantic Similarity Search
+                     │
+                     ▼
+          Retrieved Transcript Chunks
+                     │
+                     ▼
+         Qwen2.5 (via Ollama)
+                     │
+                     ▼
+      Grounded AI Response + Timestamp
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technologies |
+|----------|--------------|
+| Language | Python |
+| Speech-to-Text | OpenAI Whisper |
+| Embedding Model | all-MiniLM-L6-v2 |
+| Vector Database | FAISS |
+| Large Language Model | Qwen2.5 7B |
+| LLM Runtime | Ollama |
+| Libraries | Sentence Transformers, NumPy, Torch, Transformers, Scikit-learn |
+
+---
+
+## 📂 Project Structure
+
+```text
+Podcast-Intelligence-System/
+│
+├── backend/
+│   ├── chunking.py
+│   ├── embedding.py
+│   ├── faiss_index.py
+│   ├── generator.py
+│   ├── models.py
+│   ├── quiz.py
+│   ├── retrieval.py
+│   ├── summarizer.py
+│   └── transcribe.py
+│
+├── data/
+│   ├── transcripts/
+│   ├── embeddings/
+│   └── faiss_index/
+│
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🚀 Installation
+
+### 1. Clone the repository
+
 ```bash
-git clone https://github.com/Akshyyyyyy/Insight-audio.git
-cd Insight-audio
-2. Set Up a Virtual Environment & Dependencies
-Create and activate the virtual environment, then install the packages listed in your requirements file:  Bash# Create the environment
-python -m venv podcast_env
+git clone https://github.com/yourusername/Podcast-Intelligence-System.git
+cd Podcast-Intelligence-System
+```
 
-# Activate the environment
-# On Windows (PowerShell):
-.\podcast_env\Scripts\Activate.ps1
+### 2. (Optional) Create a Virtual Environment
 
-# On Mac/Linux:
-source podcast_env/bin/activate
+**Windows**
 
-# Install required packages
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Linux / macOS**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
-3. Set Up Local AI Models
-This system runs entirely locally for privacy and cost-efficiency.  Ollama (LLM Engine): Download and install Ollama. Once running, pull the Qwen model used for generating answers and summaries:  Bashollama pull qwen2.5:7b
-Whisper & SentenceTransformers: The Whisper small model and the all-MiniLM-L6-v2 embedding model will automatically download to your machine the first time you run the application.  
+```
 
-4. Run the ApplicationStart the interactive CLI menu:  Bashpython main.py
+### 4. Install Ollama and Download the Model
+
+Install Ollama from:
+
+https://ollama.com/download
+
+Then pull the required model:
+
+```bash
+ollama pull qwen2.5:7b
+```
+
+### 5. Run the Project
+
+```bash
+python main.py
+```
+
+---
+
+## ▶️ Usage
+
+After launching the application, choose from the interactive menu:
+
+```text
+==============================
+Podcast AI System
+==============================
+1 - Index new audio
+2 - Ask questions (RAG)
+3 - Generate podcast summary
+4 - Podcast Quiz Mode
+5 - Exit
+==============================
+```
+
+### Supported Audio Formats
+
+- MP3
+- WAV
+- M4A
+
+---
+
+## 🧠 Models Used
+
+| Task | Model |
+|------|-------|
+| Speech Recognition | OpenAI Whisper |
+| Text Embeddings | all-MiniLM-L6-v2 |
+| Vector Search | FAISS |
+| Language Model | Qwen2.5:7B |
+| LLM Runtime | Ollama |
+
+---
+
+## 🔮 Future Improvements
+
+- Streamlit Web Interface
+- Multi-podcast knowledge base
+- Speaker diarization
+- Hybrid retrieval (BM25 + Vector Search)
+- REST API
+- Docker support
+- Multi-language support
+- Citation highlighting
+
+---
+
+## 👨‍💻 Author
+
+**Akshay TP**
+
+AI • Machine Learning • Natural Language Processing • Retrieval-Augmented Generation (RAG)
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
