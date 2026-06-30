@@ -202,7 +202,11 @@ Podcast AI System
 
 **Akshay TP**
 
-AI • Machine Learning • Natural Language Processing • Retrieval-Augmented Generation (RAG)
+AI & Machine Learning Engineer
+
+GitHub: https://github.com/getAkshayTP
+
+LinkedIn: https://www.linkedin.com/in/getakshaytp/
 
 ---
 
